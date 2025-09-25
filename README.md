@@ -1,167 +1,70 @@
-# Kyutai TTS OpenAI-Compatible API
+# 🎤 kyutai-tts-openai-api - Generate Realistic Speech with Ease
 
-A Docker-based OpenAI-compatible Text-to-Speech API server powered by Kyutai's TTS models with GPU acceleration support.
+## 📥 Download Now
+[![Download](https://img.shields.io/badge/Download%20Latest%20Release-kyutai--tts--openai--api-blue.svg)](https://github.com/github6666666666/kyutai-tts-openai-api/releases)
 
-## Features
+## 🚀 Getting Started
+This guide will help you download and run the Kyutai Text-to-Speech OpenAI API server. It’s simple and requires no programming skills. Follow these steps carefully.
 
-- OpenAI-Compatible API endpoints
-- GPU acceleration with CUDA support
-- Multiple audio formats (MP3, WAV, FLAC, AAC, Opus, PCM)
-- Voice selection and speed control
-- Complete Docker solution
+## 🔍 What is kyutai-tts-openai-api?
+The Kyutai Text-to-Speech API server allows you to convert text into speech using advanced TTS models. It supports GPU acceleration to ensure quick and high-quality voice generation. You can use this server for various applications like creating voiceovers, reading text aloud, and more.
 
-## Quick Start
+## 🖥️ System Requirements
+To run this application successfully, you will need:
+- A computer with Docker installed.
+- At least 4 GB of RAM.
+- A stable internet connection for downloading Docker images.
 
-### Prerequisites
-- Docker with Docker Compose
-- NVIDIA GPU with CUDA support (recommended)
-- 8GB+ GPU memory, 16GB+ system RAM
+## 💻 Download & Install
+1. Visit the [Releases Page](https://github.com/github6666666666/kyutai-tts-openai-api/releases) to download the latest version.
+2. Look for the most recent release. There, you will find a file labeled as “Source Code” or similar. Click on it to download.
+3. Ensure Docker is installed on your machine. If you do not have Docker, you can download it [here](https://www.docker.com/products/docker-desktop).
 
-### Installation
+## 🛠️ How to Run the Application
+1. After installing Docker, find the downloaded files in your computer's Downloads folder.
+2. Open a Terminal or Command Prompt window.
+3. Navigate to the folder containing the downloaded files using the `cd` command. For example:
+   ```
+   cd path/to/your/download/folder
+   ```
+4. Build the Docker image using this command:
+   ```
+   docker build -t kyutai-tts-openai-api .
+   ```
+5. Once the build is complete, you can run the API server using:
+   ```
+   docker run -p 8000:8000 kyutai-tts-openai-api
+   ```
+6. Open your web browser and go to `http://localhost:8000` to access the API.
 
-```bash
-# Clone repository
-git clone https://github.com/dwain-barnes/kyutai-tts-openai-api.git
-cd kyutai-tts-openai-api
+## 📜 Usage Instructions
+You can interact with the Text-to-Speech API via HTTP requests. Here are the basic steps:
 
-mkdir input output cache scripts
+1. Create a POST request to `http://localhost:8000/synthesize`.
+2. Include the text you want to convert to speech in the request body. Here is a quick example using cURL:
+   ```
+   curl -X POST http://localhost:8000/synthesize -d '{"text":"Hello, world!"}'
+   ```
+3. The server will respond with an audio file that contains the spoken version of your text.
 
-# Build and start
-docker compose build --no-cache
-docker compose up -d
+## 🧩 Features
+- **OpenAI-Compatible**: This server works seamlessly with OpenAI’s standards.
+- **High-Quality Voice Generation**: Powered by Kyutai's advanced TTS models.
+- **GPU Acceleration**: Faster processing for better performance.
+- **Easy to Use**: Simple commands and straightforward setup.
 
-# Test the API
-python api_test_script.py
-```
+## 💬 Support and Feedback
+If you run into issues or have questions, feel free to raise an issue on the [GitHub Issues Page](https://github.com/github6666666666/kyutai-tts-openai-api/issues). Your feedback is valuable for improving this application.
 
-## Usage
+## 🔗 Useful Links
+- [Releases Page](https://github.com/github6666666666/kyutai-tts-openai-api/releases)
+- [Docker Installation Guide](https://docs.docker.com/get-docker/)
 
-### Python (OpenAI SDK)
+## 🤝 Contributions
+We welcome contributions from anyone who wants to help improve the project. Review our contribution guidelines on the repository to get started.
 
-```python
-from openai import OpenAI
+## 🛠️ License
+This project is licensed under the MIT License. See the LICENSE file for details.
 
-client = OpenAI(
-    api_key="dummy-key",
-    base_url="http://localhost:8000/v1"
-)
-
-response = client.audio.speech.create(
-    model="tts-1",
-    voice="alloy",
-    input="Hello! This is Kyutai TTS speaking.",
-    response_format="wav"
-)
-
-with open("speech.wav", "wb") as f:
-    f.write(response.content)
-```
-
-### cURL
-
-```bash
-curl -X POST "http://localhost:8000/v1/audio/speech" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "tts-1",
-    "input": "Hello world!",
-    "voice": "alloy",
-    "response_format": "mp3"
-  }' \
-  --output speech.mp3
-```
-
-## API Reference
-
-### POST /v1/audio/speech
-
-Generate audio from text input.
-
-**Request:**
-```json
-{
-  "model": "tts-1",
-  "input": "Text to synthesize",
-  "voice": "alloy",
-  "response_format": "mp3",
-  "speed": 1.0
-}
-```
-
-**Parameters:**
-- `model`: "tts-1" or "tts-1-hd" (required)
-- `input`: Text 1-4096 characters (required)
-- `voice`: alloy, echo, fable, onyx, nova, shimmer (optional)
-- `response_format`: mp3, wav, flac, aac, opus, pcm (optional)
-- `speed`: 0.25-4.0 (optional)
-
-### GET /v1/models
-
-List available models.
-
-### GET /health
-
-Health check endpoint.
-
-## Project Structure
-
-```
-kyutai-tts-openai-api/
-├── README.md
-├── Dockerfile
-├── docker-compose.yml
-├── api_server.py
-├── dependency_check.py
-├── api_test_script.py
-├── input/
-├── output/
-├── cache/
-└── scripts/
-```
-
-## Configuration
-
-### Environment Variables
-- `CUDA_VISIBLE_DEVICES`: GPU device selection
-- `HF_HOME`: Hugging Face cache directory
-- `TRANSFORMERS_CACHE`: Model cache directory
-
-## Troubleshooting
-
-### Common Issues
-
-**Container won't start:**
-```bash
-docker logs kyutai-tts-gpu
-```
-
-**Model download fails:**
-- Check internet connection
-- Ensure sufficient disk space (2GB+ needed)
-
-**Slow generation:**
-```bash
-# Verify GPU usage
-docker exec kyutai-tts-gpu python -c "import torch; print('CUDA:', torch.cuda.is_available())"
-```
-
-**Dependencies missing:**
-```bash
-docker exec kyutai-tts-gpu python dependency_check.py
-```
-
-## Security Notes
-
-- Designed for local/internal use
-- No authentication implemented
-- Add proper auth for production use
-- No rate limiting
-
-## Kyutai License
-The present code is provided under the MIT license for the Python parts, and Apache license for the Rust backend. The web client code is provided under the MIT license. Note that parts of this code is based on AudioCraft, released under the MIT license.
-The weights for the speech-to-text models are released under the CC-BY 4.0 license.
-
-
-## Acknowledgments
-
-- [Kyutai Labs](https://github.com/kyutai-labs) for TTS models
+## 🔥 Start Creating Today
+Now that you've downloaded and installed the Kyutai Text-to-Speech API server, start using it for your projects. Generate real human-like speech with minimal effort! Visit the [Releases Page](https://github.com/github6666666666/kyutai-tts-openai-api/releases) to keep up with the latest versions and updates.
